@@ -46,16 +46,11 @@ if (($open = fopen("./csv/categorie.csv", "r")) !== false) {
     die("Error: Unable to open the file.");
 }
 
-
 // PRODOTTI
 if (($open = fopen("./csv/prodotti.csv", "r")) !== false) {
-    // if file can be opened 
-    // fopen opens file and r stands for mode 'read'
-    // assign everything to $open
-    $headers = fgetcsv($open); // reading first line and doing nothing so it skips in the while
-    //fget examinate a line from the opened file and check for csv fields
-    // assign everything to $data
-    // while data are valid and can be read goes on, else stops loops
+
+    $headers = fgetcsv($open);
+
     while (($data = fgetcsv($open)) !== false) {
         $id = (int) $data[0];    
         $name = $data[1];
@@ -63,7 +58,7 @@ if (($open = fopen("./csv/prodotti.csv", "r")) !== false) {
         $category_id = (int) $data[3];
         $stmt_prdct->execute();
     }
-    // since data are not readeable close the file
+
     fclose($open);
 } else {
     die("Error: Unable to open the file.");
