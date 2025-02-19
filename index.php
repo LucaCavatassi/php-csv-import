@@ -16,6 +16,14 @@ if ($conn->connect_error) {
     echo "Database connected successfully!";
 }
 
+// prepared statement categories
+$stmt_ctg = $conn->prepare('INSERT INTO categorie (id, nome) VALUES (?, ?)');
+$stmt_ctg->bind_param('is',$id, $name);
+
+// prepared statement products
+$stmt_ctg = $conn->prepare('INSERT INTO prodotti (id, nome, prezzo, categoria_id) VALUES (?, ?, ?, ?)');
+$stmt_ctg->bind_param('isdi',$id, $name, $price, $category_id);
+
 // ****** FILES ******
 // CATEGORIE
 if (($open = fopen("./csv/categorie.csv", "r")) !== false) {
@@ -27,7 +35,7 @@ if (($open = fopen("./csv/categorie.csv", "r")) !== false) {
     // assign everything to $data
     // while data are valid and can be read goes on, else stops loops
     while (($data = fgetcsv($open)) !== false) {
-        var_dump($data);
+        var_dump($data['id']);
     }
     // since data are not readeable close the file
     fclose($open);
@@ -46,7 +54,7 @@ if (($open = fopen("./csv/prodotti.csv", "r")) !== false) {
     // assign everything to $data
     // while data are valid and can be read goes on, else stops loops
     while (($data = fgetcsv($open)) !== false) {
-        var_dump($data);
+        // var_dump($data);
     }
     // since data are not readeable close the file
     fclose($open);
