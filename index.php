@@ -6,7 +6,9 @@ $db_password = "root";
 $db_name = "php-csv-import";
 $db_port = "8889";
 
+// makes connection
 $conn = new mysqli($db_host,$db_username,$db_password,$db_name,$db_port);
+
 // check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
