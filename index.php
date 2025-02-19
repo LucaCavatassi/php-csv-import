@@ -17,12 +17,12 @@ if ($conn->connect_error) {
 }
 
 // prepared statement categories
-$stmt_ctg = $conn->prepare('INSERT INTO categorie (id, nome) VALUES (?, ?)');
+$stmt_ctg = $conn->prepare('INSERT IGNORE INTO categorie (id, nome) VALUES (?, ?)');
 $stmt_ctg->bind_param('is',$id, $name);
 
 // prepared statement products
-$stmt_ctg = $conn->prepare('INSERT INTO prodotti (id, nome, prezzo, categoria_id) VALUES (?, ?, ?, ?)');
-$stmt_ctg->bind_param('isdi',$id, $name, $price, $category_id);
+$stmt_prdct = $conn->prepare('INSERT IGNORE INTO prodotti (id, nome, prezzo, categoria_id) VALUES (?, ?, ?, ?)');
+$stmt_prdct->bind_param('isdi',$id, $name, $price, $category_id);
 
 // ****** FILES ******
 // CATEGORIE
@@ -35,7 +35,9 @@ if (($open = fopen("./csv/categorie.csv", "r")) !== false) {
     // assign everything to $data
     // while data are valid and can be read goes on, else stops loops
     while (($data = fgetcsv($open)) !== false) {
-        var_dump($data['id']);
+        $id = (int) $data[0];
+        $name = $data[1];
+        $stmt_ctg->execute();
     }
     // since data are not readeable close the file
     fclose($open);
@@ -54,7 +56,11 @@ if (($open = fopen("./csv/prodotti.csv", "r")) !== false) {
     // assign everything to $data
     // while data are valid and can be read goes on, else stops loops
     while (($data = fgetcsv($open)) !== false) {
-        // var_dump($data);
+        $id = (int) $data[0];    
+        $name = $data[1];
+        $price = (float) $data[2];    
+        $category_id = (int) $data[3];
+        $stmt_prdct->execute();
     }
     // since data are not readeable close the file
     fclose($open);
