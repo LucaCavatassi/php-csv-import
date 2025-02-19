@@ -17,6 +17,7 @@ if ($conn->connect_error) {
 }
 
 // prepared statement categories
+// ignore ignores if an id it's already into the table and if it's true skips it
 $stmt_ctg = $conn->prepare('INSERT IGNORE INTO categorie (id, nome) VALUES (?, ?)');
 $stmt_ctg->bind_param('is',$id, $name);
 
